@@ -8,8 +8,8 @@ resource "cloudflare_ruleset" "zone_custom_firewall" {
 
   rules {
     action      = "block"
-    expression  = var.blocked_country
-    description = "Blocked Countres"
+    expression  = var.blocked_countries
+    description = "Blocked Countries"
     enabled     = true
   }
 }

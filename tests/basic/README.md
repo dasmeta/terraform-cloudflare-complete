@@ -17,7 +17,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cloudflare"></a> [cloudflare](#module\_cloudflare) | ../ | n/a |
+| <a name="module_cloudflare"></a> [cloudflare](#module\_cloudflare) | ../../ | n/a |
 
 ## Resources
 

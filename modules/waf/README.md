@@ -27,7 +27,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_blocked_country"></a> [blocked\_country](#input\_blocked\_country) | Blocked countres | `string` | `""` | no |
+| <a name="input_blocked_countries"></a> [blocked\_countries](#input\_blocked\_countries) | Blocked countries | `string` | `""` | no |
 | <a name="input_zone_id"></a> [zone\_id](#input\_zone\_id) | Zone Id | `string` | n/a | yes |
 
 ## Outputs

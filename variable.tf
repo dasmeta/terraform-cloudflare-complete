@@ -34,7 +34,7 @@ variable "create_waf" {
 }
 
 
-variable "blocked_country" {
+variable "blocked_countries" {
   type        = string
   default     = ""
   description = "Blocked countres"
