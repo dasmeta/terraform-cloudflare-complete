@@ -9,10 +9,10 @@ module "cloudflare" {
   ]
 
   # DasMeta
-  zone_name   = "devops.dasmeta.com"
-  create_zone = true
-  create_waf  = true
-  account_id  = "account_id"
-  api_token   = "api_token"
+  zone_name       = "devops.dasmeta.com"
+  create_zone     = true
+  create_waf      = true
+  account_id      = "account_id"
+  api_token       = "api_token"
   blocked_country = "ip.geoip.country eq \"AF\""
 }
