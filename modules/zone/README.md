@@ -21,7 +21,6 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [cloudflare_record.records](https://registry.terraform.io/providers/cloudflare/cloudflare/4.9.0/docs/resources/record) | resource |
 | [cloudflare_zone.zone](https://registry.terraform.io/providers/cloudflare/cloudflare/4.9.0/docs/resources/zone) | resource |
 
 ## Inputs
@@ -29,7 +28,6 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_account_id"></a> [account\_id](#input\_account\_id) | Cloudflare Account Id | `string` | n/a | yes |
-| <a name="input_cloudflare_records"></a> [cloudflare\_records](#input\_cloudflare\_records) | Cloudflare records name, type and value list. | <pre>list(object({<br>    name  = string,<br>    type  = string,<br>    value = string<br>  }))</pre> | `[]` | no |
 | <a name="input_zone_name"></a> [zone\_name](#input\_zone\_name) | Cloudflare zone name | `string` | n/a | yes |
 
 ## Outputs
