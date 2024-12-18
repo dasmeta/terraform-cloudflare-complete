@@ -16,6 +16,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_records"></a> [records](#module\_records) | ./modules/records/ | n/a |
 | <a name="module_waf"></a> [waf](#module\_waf) | ./modules/waf/ | n/a |
 | <a name="module_zone"></a> [zone](#module\_zone) | ./modules/zone/ | n/a |
 
@@ -35,6 +36,7 @@
 | <a name="input_cloudflare_records"></a> [cloudflare\_records](#input\_cloudflare\_records) | Cloudflare records name, type and value list. | <pre>list(object({<br>    name  = string,<br>    type  = string,<br>    value = string<br>  }))</pre> | `[]` | no |
 | <a name="input_create_waf"></a> [create\_waf](#input\_create\_waf) | n/a | `bool` | `false` | no |
 | <a name="input_create_zone"></a> [create\_zone](#input\_create\_zone) | n/a | `bool` | `false` | no |
+| <a name="input_zone_id"></a> [zone\_id](#input\_zone\_id) | Cloudflare zone id if zone already created | `string` | `""` | no |
 | <a name="input_zone_name"></a> [zone\_name](#input\_zone\_name) | Cloudflare zone name | `string` | n/a | yes |
 
 ## Outputs

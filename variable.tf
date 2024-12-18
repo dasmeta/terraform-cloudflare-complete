@@ -13,6 +13,12 @@ variable "zone_name" {
   description = "Cloudflare zone name"
 }
 
+variable "zone_id" {
+  type        = string
+  description = "Cloudflare zone id if zone already created"
+  default     = ""
+}
+
 variable "account_id" {
   type        = string
   description = "Cloudflare Account Id"
