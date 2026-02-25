@@ -4,7 +4,7 @@ variable "cloudflare_records" {
     type     = string,
     value    = string,
     ttl      = optional(number, 3600)
-    priority = optional(number, null)
+    priority = optional(any, null)
   }))
   description = "Cloudflare records name, type and value list."
   default     = []

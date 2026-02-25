@@ -3,9 +3,10 @@
 resource "cloudflare_dns_record" "dns_record" {
   for_each = { for i, record in var.cloudflare_records : "${record.name}_${record.type}_${i}" => record }
 
-  zone_id = var.zone_id
-  name    = each.value.name
-  type    = each.value.type
-  content = each.value.value
-  ttl     = each.value.ttl
+  zone_id  = var.zone_id
+  name     = each.value.name
+  type     = each.value.type
+  content  = each.value.value
+  ttl      = each.value.ttl
+  priority = each.value.priority
 }
