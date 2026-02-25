@@ -4,10 +4,11 @@ locals {
   file_content = var.cloudflare_records_file != "" ? file(var.cloudflare_records_file) : ""
   file_records = var.cloudflare_records_file != "" ? [
     for row in csvdecode(local.file_content) : {
-      name  = row["Name"]
-      type  = row["Type"]
-      value = row["Content"]
-      ttl   = row["TTL"]
+      name     = row["Name"]
+      type     = row["Type"]
+      value    = row["Content"]
+      ttl      = row["TTL"]
+      priority = row["Priority"]
     }
   ] : []
 
