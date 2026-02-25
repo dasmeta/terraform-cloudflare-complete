@@ -2,7 +2,8 @@ variable "cloudflare_records" {
   type = list(object({
     name  = string,
     type  = string,
-    value = string
+    value = string,
+    ttl   = optional(number, 3600)
   }))
   description = "Cloudflare records name, type and value list."
   default     = []

@@ -1,19 +1,19 @@
 output "dns_record_id" {
-  description = "The ID of the created DNS record"
-  value       = cloudflare_record.dns_record.id
+  description = "Map of record name to the ID of the created DNS record"
+  value       = { for k, r in cloudflare_dns_record.dns_record : k => r.id }
 }
 
 output "dns_record_name" {
-  description = "The name of the created DNS record"
-  value       = cloudflare_record.dns_record.name
+  description = "Map of record name to the name of the created DNS record"
+  value       = { for k, r in cloudflare_dns_record.dns_record : k => r.name }
 }
 
 output "dns_record_type" {
-  description = "The type of the created DNS record"
-  value       = cloudflare_record.dns_record.type
+  description = "Map of record name to the type of the created DNS record"
+  value       = { for k, r in cloudflare_dns_record.dns_record : k => r.type }
 }
 
 output "dns_record_value" {
-  description = "The value of the created DNS record"
-  value       = cloudflare_record.dns_record.value
+  description = "Map of record name to the value of the created DNS record"
+  value       = { for k, r in cloudflare_dns_record.dns_record : k => r.content }
 }

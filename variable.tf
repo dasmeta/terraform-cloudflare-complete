@@ -8,6 +8,12 @@ variable "cloudflare_records" {
   default     = []
 }
 
+variable "cloudflare_records_file" {
+  type        = string
+  default     = ""
+  description = "Optional path to a file to import DNS records from. Supports: CSV."
+}
+
 variable "zone_name" {
   type        = string
   description = "Cloudflare zone name"
