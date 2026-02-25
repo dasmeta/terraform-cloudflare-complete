@@ -1,3 +1,4 @@
+# Provider 5: rules is an argument (list of rule objects), not a block
 resource "cloudflare_ruleset" "zone_custom_firewall" {
   zone_id     = var.zone_id
   name        = "Block Geolocations"
@@ -5,11 +6,12 @@ resource "cloudflare_ruleset" "zone_custom_firewall" {
   kind        = "zone"
   phase       = "http_request_firewall_custom"
 
-
-  rules {
-    action      = "block"
-    expression  = var.blocked_countries
-    description = "Blocked Countries"
-    enabled     = true
-  }
+  rules = [
+    {
+      action      = "block"
+      expression  = var.blocked_countries
+      description = "Blocked Countries"
+      enabled     = true
+    }
+  ]
 }

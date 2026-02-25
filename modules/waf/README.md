@@ -5,13 +5,13 @@
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_cloudflare"></a> [cloudflare](#requirement\_cloudflare) | 4.9.0 |
+| <a name="requirement_cloudflare"></a> [cloudflare](#requirement\_cloudflare) | ~> 5.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_cloudflare"></a> [cloudflare](#provider\_cloudflare) | 4.9.0 |
+| <a name="provider_cloudflare"></a> [cloudflare](#provider\_cloudflare) | ~> 5.0 |
 
 ## Modules
 
@@ -21,7 +21,7 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [cloudflare_ruleset.zone_custom_firewall](https://registry.terraform.io/providers/cloudflare/cloudflare/4.9.0/docs/resources/ruleset) | resource |
+| [cloudflare_ruleset.zone_custom_firewall](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/ruleset) | resource |
 
 ## Inputs
 

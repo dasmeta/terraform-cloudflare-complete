@@ -1,7 +1,10 @@
+# Provider 5: look up zone by name; cloudflare_zone requires zone_id or filter (name is read-only)
 data "cloudflare_zone" "zone" {
   count = var.create_zone ? 0 : 1
 
-  name = var.zone_name
+  filter = {
+    name = var.zone_name
+  }
 }
 
 module "waf" {
@@ -28,5 +31,5 @@ module "records" {
   source = "./modules/records/"
 
   zone_id            = var.create_zone ? module.zone[0].id : var.zone_id
-  cloudflare_records = var.cloudflare_records
+  cloudflare_records = local.all_records
 }
