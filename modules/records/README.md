@@ -37,4 +37,5 @@ No modules.
 | <a name="output_dns_record_id"></a> [dns\_record\_id](#output\_dns\_record\_id) | Map of record name to the ID of the created DNS record |
 | <a name="output_dns_record_name"></a> [dns\_record\_name](#output\_dns\_record\_name) | Map of record name to the name of the created DNS record |
 | <a name="output_dns_record_type"></a> [dns\_record\_type](#output\_dns\_record\_type) | Map of record name to the type of the created DNS record |
+| <a name="output_dns_record_value"></a> [dns\_record\_value](#output\_dns\_record\_value) | Map of record name to the value of the created DNS record |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

@@ -13,7 +13,7 @@ output "dns_record_type" {
   value       = { for k, r in cloudflare_dns_record.dns_record : k => r.type }
 }
 
-# output "dns_record_value" {
-#   description = "Map of record name to the value of the created DNS record"
-#   value       = { for k, r in cloudflare_dns_record.dns_record : k => r.value }
-# }
+output "dns_record_value" {
+  description = "Map of record name to the value of the created DNS record"
+  value       = { for k, r in cloudflare_dns_record.dns_record : k => r.value }
+}
