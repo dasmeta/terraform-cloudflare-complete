@@ -7,5 +7,5 @@ resource "cloudflare_dns_record" "dns_record" {
   name    = each.value.name
   type    = each.value.type
   content = each.value.value
-  ttl     = 3600
+  ttl     = each.value.ttl != null ? each.value.ttl : 3600
 }
