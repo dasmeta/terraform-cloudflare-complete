@@ -27,7 +27,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_cloudflare_records"></a> [cloudflare\_records](#input\_cloudflare\_records) | Cloudflare records name, type and value list. | <pre>list(object({<br/>    name  = string,<br/>    type  = string,<br/>    value = string<br/>  }))</pre> | `[]` | no |
+| <a name="input_cloudflare_records"></a> [cloudflare\_records](#input\_cloudflare\_records) | Cloudflare records name, type and value list. | <pre>list(object({<br/>    name  = string,<br/>    type  = string,<br/>    value = string,<br/>    ttl   = optional(number, 3600)<br/>  }))</pre> | `[]` | no |
 | <a name="input_zone_id"></a> [zone\_id](#input\_zone\_id) | CloudFlare Zone ID | `string` | n/a | yes |
 
 ## Outputs

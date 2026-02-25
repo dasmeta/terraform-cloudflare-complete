@@ -7,6 +7,7 @@ locals {
       name  = row["Name"]
       type  = row["Type"]
       value = row["Content"]
+      ttl   = row["TTL"]
     }
   ] : []
 
