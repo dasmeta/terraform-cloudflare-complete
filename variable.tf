@@ -44,6 +44,7 @@ variable "account_id" {
 variable "api_token" {
   type        = string
   description = "API token"
+  sensitive   = true
 }
 
 variable "create_zone" {
