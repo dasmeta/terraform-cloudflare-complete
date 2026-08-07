@@ -1,2 +1,2 @@
-Type,Name,Content,TTL,Priority,Proxied
-A,@,1.1.1.1,14400,,false
+ID,Type,Name,Content,TTL,Priority,Proxied
+example-root-a,A,@,1.1.1.1,14400,,DNS only

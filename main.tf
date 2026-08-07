@@ -1,10 +1,16 @@
 # Provider 5: look up zone by name; cloudflare_zone requires zone_id or filter (name is read-only)
 data "cloudflare_zone" "zone" {
-  count = var.create_zone ? 0 : 1
+  count = var.create_zone || var.zone_id != "" ? 0 : 1
 
   filter = {
     name = var.zone_name
   }
+}
+
+locals {
+  effective_zone_id = var.create_zone ? module.zone[0].id : (
+    var.zone_id != "" ? var.zone_id : data.cloudflare_zone.zone[0].id
+  )
 }
 
 module "waf" {
@@ -12,7 +18,7 @@ module "waf" {
 
   source = "./modules/waf/"
 
-  zone_id           = var.create_zone ? module.zone[0].id : data.cloudflare_zone.zone[0].id
+  zone_id           = local.effective_zone_id
   blocked_countries = var.blocked_countries
 }
 
@@ -26,10 +32,11 @@ module "zone" {
 }
 
 module "records" {
-  count = var.cloudflare_records != [] ? 1 : 0
+  count = length(local.all_records) > 0 ? 1 : 0
 
   source = "./modules/records/"
 
-  zone_id            = var.create_zone ? module.zone[0].id : var.zone_id
-  cloudflare_records = local.all_records
+  zone_id                = local.effective_zone_id
+  cloudflare_records     = local.all_records
+  record_state_migration = var.record_state_migration
 }
