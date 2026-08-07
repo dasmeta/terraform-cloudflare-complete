@@ -1,0 +1,2 @@
+ID,Type,Name,Content,TTL,Priority,Proxied
+example-root-a,A,@,192.0.2.10,3600,,unknown-proxy-state

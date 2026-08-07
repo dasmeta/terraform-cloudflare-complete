@@ -23,10 +23,9 @@ module "cloudflare_records_adoption" {
   ]
 
   zone_name              = "example.com"
-  create_zone            = false
+  create_zone            = true
   create_waf             = false
   account_id             = "example-account-id"
-  zone_id                = "example-zone-id"
-  api_token              = ""
-  record_state_migration = "v2-record-addresses-migrated"
+  api_token              = "0123456789abcdef0123456789abcdef01234567"
+  record_state_migration = "not-required-new-install"
 }

@@ -30,7 +30,12 @@ variable "cloudflare_records" {
 
 variable "record_state_migration" {
   type        = string
-  description = "Set to v2-record-addresses-migrated only after every existing DNS record has been moved to its identifier address with terraform state mv."
+  description = "Set to v2-record-addresses-migrated after moving legacy state, or not-required-new-install when no legacy state exists."
+
+  validation {
+    condition     = contains(["v2-record-addresses-migrated", "not-required-new-install"], var.record_state_migration)
+    error_message = "record_state_migration must be v2-record-addresses-migrated after running terraform state mv for legacy records, or not-required-new-install when there is no legacy DNS record state."
+  }
 }
 
 variable "zone_id" {

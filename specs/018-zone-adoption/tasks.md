@@ -36,3 +36,14 @@
 - [X] T016 Update fixtures and documentation with the `terraform state mv`
   migration workflow.
 - [X] T017 Regenerate documentation and validate migration-guard fixtures.
+
+## Phase 7: Review Corrections
+
+- [X] T018 Remove permanent DNS `prevent_destroy`; retain the migration
+  acknowledgement as the scoped v2 migration guard.
+- [X] T019 Validate CSV `ID` and `Proxied` contracts at the root module and
+  normalize supported proxy values explicitly.
+- [X] T020 Add a new-install acknowledgement, root duplicate-ID validation,
+  and effective existing-zone ID selection.
+- [X] T021 Exercise merged CSV and inline records in plan-only fixtures.
+- [X] T022 Consolidate generated README blocks and rerun Terraform checks.

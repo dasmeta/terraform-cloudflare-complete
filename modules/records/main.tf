@@ -22,11 +22,9 @@ resource "cloudflare_dns_record" "dns_record" {
   settings = each.value.settings
 
   lifecycle {
-    prevent_destroy = true
-
     precondition {
-      condition     = var.record_state_migration == "v2-record-addresses-migrated"
-      error_message = "Cloudflare DNS records require a v2 state migration. Run terraform state mv for every legacy index address to its identifier address, then set record_state_migration = \"v2-record-addresses-migrated\"."
+      condition     = contains(["v2-record-addresses-migrated", "not-required-new-install"], var.record_state_migration)
+      error_message = "Cloudflare DNS records require a v2 acknowledgement. Move every legacy index address with terraform state mv and set record_state_migration = \"v2-record-addresses-migrated\", or set it to \"not-required-new-install\" when no legacy DNS record state exists."
     }
   }
 }

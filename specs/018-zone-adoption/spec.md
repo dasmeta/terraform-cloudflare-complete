@@ -2,7 +2,7 @@
 
 **Feature Branch**: `018-zone-adoption`  
 **Created**: 2026-08-07  
-**Status**: Ready for implementation
+**Status**: Review fixes in progress
 
 ## User Scenarios & Testing
 
@@ -31,19 +31,21 @@ addresses receives a hard, actionable plan failure until every state object is
 moved to its identifier address.
 
 **Independent Test**: A configuration using the default migration marker fails
-validation with instructions to run `terraform state mv`; the acknowledged
-configuration validates without planning a record destroy.
+validation with instructions to run `terraform state mv`; both migrated
+installations and explicitly declared new installations validate without
+changing DNS-record lifecycle semantics.
 
 ## Functional Requirements
 
-- **FR-001**: The module MUST continue accepting existing record inputs without
-  requiring new attributes.
+- **FR-001**: The v2 module MUST require a stable identifier for every DNS
+  record so record addresses are deterministic.
 - **FR-002**: A record MAY define TTL, proxy status, comment, tags, MX priority,
   and supported DNS settings.
-- **FR-003**: A record MAY define a stable, module-only identifier used for the
-  Terraform instance address.
-- **FR-004**: Records without an identifier MUST retain the current derived
-  address convention.
+- **FR-003**: A record MUST define a stable, module-only identifier used for
+  the Terraform instance address.
+- **FR-004**: CSV-imported records MUST provide non-empty `ID` and `Proxied`
+  columns; invalid proxy values MUST be rejected rather than implicitly
+  changing DNS proxying.
 - **FR-005**: File-imported records MUST retain their CSV TTL values.
 - **FR-006**: Documentation, examples, and validation fixtures MUST demonstrate
   the supported adoption attributes using neutral example domains.
@@ -51,18 +53,20 @@ configuration validates without planning a record destroy.
   identifier, including CSV-imported records.
 - **FR-008**: DNS record plans MUST fail until the caller explicitly acknowledges
   completion of the v2 state-address migration.
-- **FR-009**: DNS record destruction MUST be prevented by the module so an
-  omitted state move cannot delete or recreate a production DNS record.
+- **FR-009**: The migration acknowledgement MUST accept a separate explicit
+  value for a new installation, where no legacy state exists to move.
+- **FR-010**: Existing-zone record and WAF modules MUST use the supplied
+  `zone_id` when available, otherwise resolve it from the zone lookup.
 
 ## Success Criteria
 
-- Existing callers validate without changing their record inputs.
+- Invalid CSV contracts fail at the root module with an actionable message.
 - A configuration containing duplicate-name records produces one address per
   supplied stable identifier.
 - All supported live-zone attributes can be represented without Terraform
   recreating a record solely because an attribute was omitted from the module.
-- An upgrade that has not moved state to identifier addresses cannot apply a
-  destructive DNS-record plan.
+- An upgrade that has not acknowledged its migration cannot apply a DNS-record
+  plan.
 
 ## Assumptions
 

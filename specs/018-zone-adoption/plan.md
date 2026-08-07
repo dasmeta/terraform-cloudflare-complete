@@ -20,8 +20,16 @@ imports fragile when a zone contains duplicate name/type records.
 Extend the existing `cloudflare_records` object with adoption attributes and
 require a stable identifier for every record. v2 keys records by identifier;
 there is no legacy index fallback. Add a migration marker that defaults to a
-hard failure with `terraform state mv` instructions, and protect DNS records
-with `prevent_destroy` so a missed state move cannot delete or recreate one.
+hard failure with `terraform state mv` instructions. The acknowledgement also
+supports an explicit new-install value, while preserving Terraform's ordinary
+DNS-record create, update, replacement, and deletion lifecycle after a caller
+has acknowledged the correct state.
+
+Validate CSV schema at the root module before passing normalized records to the
+records submodule: each row needs an `ID`, and `Proxied` must use an explicitly
+supported value. Normalize common Cloudflare export values without allowing an
+unknown value to silently become DNS-only. Derive one effective zone ID: use a
+newly created zone ID, then a supplied ID, and only then a data-source lookup.
 
 The module remains a narrow opinionated wrapper; it intentionally does not
 expose the provider's arbitrary `data` record surface. The current zone
@@ -53,15 +61,17 @@ provider upgrade is required.
 This delivery is intentionally released as v2.0.0. Stable record identifiers
 replace order-based resource addresses. Consumers must move each existing
 record state object to its identifier address with `terraform state mv`, then
-set the explicit migration marker. The module rejects unacknowledged upgrades
-and prevents record destruction as a second safety barrier.
+set the explicit migration marker. New installations declare an explicit
+new-install acknowledgement. The module rejects unacknowledged upgrades but
+does not permanently block normal DNS lifecycle operations.
 
 ## Files
 
-- `variables.tf`, `locals.tf`: preserve the full record objects and declare the
-  backward-compatible root interface.
+- `variable.tf`, `locals.tf`, `main.tf`: validate CSV inputs, derive the
+  effective zone ID, and declare the v2 root interface.
 - `modules/records/{variables.tf,main.tf}`: declare and render supported
   attributes with stable keys.
 - `tests/records-adoption/main.tf`: add a neutral validation fixture.
 - module READMEs: regenerate from live inputs.
-- tests: cover required identifiers and the migration acknowledgement guard.
+- tests: cover CSV plus inline records, CSV proxy normalization, root zone-ID
+  selection, and both migration acknowledgement paths.

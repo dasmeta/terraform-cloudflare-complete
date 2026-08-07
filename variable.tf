@@ -19,21 +19,42 @@ variable "cloudflare_records" {
   default     = []
 
   validation {
-    condition     = alltrue([for record in var.cloudflare_records : trimspace(record.identifier) != ""])
-    error_message = "Every cloudflare_records entry must define a non-empty identifier in v2."
+    condition = alltrue([
+      for record in var.cloudflare_records : trimspace(record.identifier) != ""
+      ]) && length(distinct([
+        for record in var.cloudflare_records : trimspace(record.identifier)
+    ])) == length(var.cloudflare_records)
+    error_message = "Each cloudflare_records entry must define a non-empty unique identifier in v2."
   }
 }
 
 variable "record_state_migration" {
   type        = string
   default     = "migrate_me"
-  description = "Set to v2-record-addresses-migrated only after every existing DNS record has been moved to its identifier address with terraform state mv."
+  description = "Set to v2-record-addresses-migrated after moving legacy state, or not-required-new-install when no legacy state exists."
+
+  validation {
+    condition     = contains(["v2-record-addresses-migrated", "not-required-new-install"], var.record_state_migration)
+    error_message = "record_state_migration must be v2-record-addresses-migrated after running terraform state mv for legacy records, or not-required-new-install when there is no legacy DNS record state."
+  }
 }
 
 variable "cloudflare_records_file" {
   type        = string
   default     = ""
   description = "Optional path to a file to import DNS records from. Supports: CSV."
+
+  validation {
+    condition = var.cloudflare_records_file == "" || (
+      can(csvdecode(file(var.cloudflare_records_file))) &&
+      alltrue([
+        for row in try(csvdecode(file(var.cloudflare_records_file)), []) :
+        contains(keys(row), "ID") && trimspace(try(row["ID"], "")) != "" &&
+        contains(keys(row), "Proxied") && contains(["true", "false", "yes", "no", "proxied", "dns only"], lower(trimspace(try(row["Proxied"], ""))))
+      ])
+    )
+    error_message = "cloudflare_records_file must be a valid CSV where every record has a non-empty ID and Proxied is one of true, false, yes, no, proxied, or dns only."
+  }
 }
 
 variable "zone_name" {
