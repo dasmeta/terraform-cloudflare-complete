@@ -16,4 +16,5 @@ module "cloudflare_merged_csv_and_inline" {
   account_id              = "account_id"
   zone_id                 = "zone_id"
   api_token               = local.test_api_token
+  record_state_migration  = "v2-record-addresses-migrated"
 }

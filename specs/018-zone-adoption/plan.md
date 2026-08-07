@@ -17,10 +17,11 @@ imports fragile when a zone contains duplicate name/type records.
 
 ## Design
 
-Extend the existing `cloudflare_records` object with optional adoption
-attributes. Keep `name`, `type`, and `value` required and preserve the current
-fallback resource key for callers that omit `identifier`. Use optional
-attributes to preserve the existing required/optional contract.
+Extend the existing `cloudflare_records` object with adoption attributes and
+require a stable identifier for every record. v2 keys records by identifier;
+there is no legacy index fallback. Add a migration marker that defaults to a
+hard failure with `terraform state mv` instructions, and protect DNS records
+with `prevent_destroy` so a missed state move cannot delete or recreate one.
 
 The module remains a narrow opinionated wrapper; it intentionally does not
 expose the provider's arbitrary `data` record surface. The current zone
@@ -49,10 +50,11 @@ provider upgrade is required.
 
 ## Compatibility and Risks
 
-The added optional attributes are backward compatible. Changing a record's
-identifier after it is managed changes its Terraform address; the README will
-document that it should be treated as immutable. No breaking or approval-gated
-interface simplification is proposed.
+This delivery is intentionally released as v2.0.0. Stable record identifiers
+replace order-based resource addresses. Consumers must move each existing
+record state object to its identifier address with `terraform state mv`, then
+set the explicit migration marker. The module rejects unacknowledged upgrades
+and prevents record destruction as a second safety barrier.
 
 ## Files
 
@@ -62,3 +64,4 @@ interface simplification is proposed.
   attributes with stable keys.
 - `tests/records-adoption/main.tf`: add a neutral validation fixture.
 - module READMEs: regenerate from live inputs.
+- tests: cover required identifiers and the migration acknowledgement guard.

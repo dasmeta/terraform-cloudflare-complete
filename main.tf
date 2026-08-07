@@ -30,6 +30,7 @@ module "records" {
 
   source = "./modules/records/"
 
-  zone_id            = var.create_zone ? module.zone[0].id : var.zone_id
-  cloudflare_records = local.all_records
+  zone_id                = var.create_zone ? module.zone[0].id : var.zone_id
+  cloudflare_records     = local.all_records
+  record_state_migration = var.record_state_migration
 }

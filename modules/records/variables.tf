@@ -1,6 +1,6 @@
 variable "cloudflare_records" {
   type = list(object({
-    identifier = optional(string)      # Stable Terraform instance key for imports.
+    identifier = string                # Stable Terraform instance key for imports and state migration.
     name       = string                # DNS record name.
     type       = string                # DNS record type.
     value      = string                # DNS record content.
@@ -15,16 +15,22 @@ variable "cloudflare_records" {
       ipv6_only     = optional(bool) # Serve only IPv6 answers for proxied records.
     }))                              # Optional Cloudflare DNS record settings.
   }))
-  description = "Cloudflare DNS records to manage. Identifier is stable across imports; all record behaviour fields are optional."
+  description = "Cloudflare DNS records to manage. Every record requires a stable identifier; all record behaviour fields are optional."
   default     = []
 
   validation {
-    condition = length(distinct([
-      for index, record in var.cloudflare_records :
-      trimspace(coalesce(try(record.identifier, null), "")) != "" ? trimspace(record.identifier) : "${record.name}_${record.type}_${index}"
+    condition = alltrue([
+      for record in var.cloudflare_records : trimspace(record.identifier) != ""
+      ]) && length(distinct([
+        for record in var.cloudflare_records : trimspace(record.identifier)
     ])) == length(var.cloudflare_records)
-    error_message = "Each cloudflare_records identifier or generated fallback key must be unique."
+    error_message = "Each cloudflare_records entry must define a non-empty unique identifier in v2."
   }
+}
+
+variable "record_state_migration" {
+  type        = string
+  description = "Set to v2-record-addresses-migrated only after every existing DNS record has been moved to its identifier address with terraform state mv."
 }
 
 variable "zone_id" {

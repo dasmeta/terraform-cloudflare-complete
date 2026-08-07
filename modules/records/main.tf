@@ -1,17 +1,12 @@
 locals {
-  cloudflare_record_keys = [
-    for index, record in var.cloudflare_records :
-    trimspace(coalesce(try(record.identifier, null), "")) != "" ? trimspace(record.identifier) : "${record.name}_${record.type}_${index}"
-  ]
-
   cloudflare_records_by_key = {
-    for index, record in var.cloudflare_records :
-    local.cloudflare_record_keys[index] => record
+    for record in var.cloudflare_records :
+    trimspace(record.identifier) => record
   }
 }
 
 # Provider 5: resource renamed to cloudflare_dns_record; uses content and required ttl.
-# A supplied identifier keeps import addresses stable when duplicate record types exist.
+# Identifiers are required so state addresses remain stable when records are reordered.
 resource "cloudflare_dns_record" "dns_record" {
   for_each = local.cloudflare_records_by_key
 
@@ -25,4 +20,13 @@ resource "cloudflare_dns_record" "dns_record" {
   comment  = each.value.comment
   tags     = each.value.tags
   settings = each.value.settings
+
+  lifecycle {
+    prevent_destroy = true
+
+    precondition {
+      condition     = var.record_state_migration == "v2-record-addresses-migrated"
+      error_message = "Cloudflare DNS records require a v2 state migration. Run terraform state mv for every legacy index address to its identifier address, then set record_state_migration = \"v2-record-addresses-migrated\"."
+    }
+  }
 }
