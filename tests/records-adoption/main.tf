@@ -15,7 +15,6 @@ module "cloudflare_records_adoption" {
       name       = "app.example.com"
       type       = "CNAME"
       value      = "origin.example.net"
-      ttl        = 1
       proxied    = true
       settings = {
         flatten_cname = false

@@ -26,7 +26,7 @@ module "zone" {
 }
 
 module "records" {
-  count = var.cloudflare_records != [] ? 1 : 0
+  count = length(local.all_records) > 0 ? 1 : 0
 
   source = "./modules/records/"
 

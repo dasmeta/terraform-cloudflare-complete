@@ -1,7 +1,12 @@
 locals {
+  cloudflare_record_keys = [
+    for index, record in var.cloudflare_records :
+    trimspace(coalesce(try(record.identifier, null), "")) != "" ? trimspace(record.identifier) : "${record.name}_${record.type}_${index}"
+  ]
+
   cloudflare_records_by_key = {
     for index, record in var.cloudflare_records :
-    coalesce(try(record.identifier, null), "${record.name}_${record.type}_${index}") => record
+    local.cloudflare_record_keys[index] => record
   }
 }
 
@@ -14,7 +19,7 @@ resource "cloudflare_dns_record" "dns_record" {
   name     = each.value.name
   type     = each.value.type
   content  = each.value.value
-  ttl      = each.value.ttl
+  ttl      = coalesce(each.value.ttl, each.value.proxied == true ? 1 : 3600)
   proxied  = each.value.proxied
   priority = each.value.priority
   comment  = each.value.comment

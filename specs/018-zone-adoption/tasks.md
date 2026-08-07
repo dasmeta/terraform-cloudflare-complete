@@ -16,3 +16,9 @@
 - [X] T006 Regenerate module documentation and format Terraform files.
 - [X] T007 Validate root, CSV, and adoption fixture Terraform configuration.
 - [X] T008 Run scoped pre-commit hooks and mark all tasks complete.
+
+## Phase 4: Review Fixes
+
+- [X] T009 Instantiate records for file-only CSV input in `main.tf`.
+- [X] T010 Validate the complete generated record key set in `modules/records/variables.tf`.
+- [X] T011 Derive automatic TTL for proxied records in `modules/records/main.tf`.
