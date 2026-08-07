@@ -12,4 +12,4 @@
   `package.json`.
 - [X] T005 Add default-branch and manual-dispatch release automation in
   `.github/workflows/release.yml`.
-- [ ] T006 Validate workflow YAML and package JSON, then create a follow-up PR.
+- [X] T006 Validate workflow YAML and package JSON, then create a follow-up PR.
